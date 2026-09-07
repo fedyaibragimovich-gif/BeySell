@@ -27,7 +27,8 @@
       const html=await originalItem(id);
       if(!html||html.indexOf('E’lon topilmadi')>=0)return html;
       const share=`<button class="btn" onclick="shareListing('${esc(id)}',${JSON.stringify('BuySell e’lon')})">↗ Ulashish</button>`;
-      return html.replace(/<button class="btn" onclick="fav\('\$\{l\.id\}'\)">♡ Sevimli<\/button>/,m=>m+share).replace('</div></div>`}</div></div>', '</div></div>`}</div></div>');
+      const marker='>♡ Sevimli</button>';
+      return html.includes(marker)?html.replace(marker,marker+share):html;
     };
   }
   const originalProfile=window.profile;
@@ -36,7 +37,7 @@
       const html=originalProfile();
       const recent=readRecent();
       if(!recent.length)return html;
-      return html+'<section class="section recent-section"><div class="head"><div><h2>Yaqinda ko‘rilgan</h2><span class="muted">Oxirgi ko‘rgan e’lonlaringiz</span></div><button class="btn" onclick="clearRecent()">Tozalash</button></div><div class="panel"><div class="muted">Oxirgi '+recent.length+' ta e’lon saqlangan. E’lonni qayta ochish uchun uning havolasidan foydalanishingiz mumkin.</div></div></section>';
+      return html+'<section class="section recent-section"><div class="head"><div><h2>Yaqinda ko‘rilgan</h2><span class="muted">Oxirgi ko‘rgan e’lonlaringiz</span></div><button class="btn" onclick="clearRecent()">Tozalash</button></div><div class="panel"><div class="muted">Oxirgi '+recent.length+' ta e’lon ko‘rildi.</div></div></section>';
     };
   }
 })();
