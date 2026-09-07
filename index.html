@@ -6,7 +6,7 @@
 <meta name="description" content="BuySell — O'zbekistonda oldi-sotdi marketplace">
 <meta name="theme-color" content="#0f1117">
 <title>BuySell — Marketplace</title>
-<link rel="stylesheet" href="./style.css?v=23">
+<link rel="stylesheet" href="./style.css?v=24">
 <script>
   try {
     const saved=localStorage.getItem('buysell-theme');
@@ -21,21 +21,29 @@
 <div id="app"></div>
 <div id="modal" class="modal hide"></div>
 <div id="toast" class="toast hide"></div>
-<script src="./app1.js?v=23"></script>
-<script src="./app2.js?v=23"></script>
-<script src="./app3.js?v=23"></script>
-<script src="./app4.js?v=23"></script>
-<script src="./app5.js?v=23"></script>
-<script src="./app6.js?v=23"></script>
+<script src="./app1.js?v=24"></script>
+<script src="./app2.js?v=24"></script>
+<script src="./app3.js?v=24"></script>
+<script src="./app4.js?v=24"></script>
+<script src="./app5.js?v=24"></script>
+<script src="./app6.js?v=24"></script>
 <script>
-window.addEventListener('load',function(){
-  setTimeout(function(){
+(function(){
+  function boot(){
     try{
+      if(typeof init!=='function') throw new Error('BuySell init funksiyasi topilmadi');
       const app=document.getElementById('app');
-      if(app && !app.innerHTML.trim() && typeof init==='function') init();
-    }catch(e){console.error('BuySell bootstrap:',e)}
-  },1200);
-});
+      if(app && !app.innerHTML.trim()) init();
+    }catch(e){
+      console.error('BuySell bootstrap:',e);
+      const app=document.getElementById('app');
+      if(app && !app.innerHTML.trim()) app.innerHTML='<main class="container"><div class="panel"><h2>BuySell</h2><p>Ilovani ishga tushirishda xatolik yuz berdi.</p><p class="muted">'+String(e?.message||e)+'</p><button class="btn primary" onclick="location.reload()">Qayta yuklash</button></div></main>';
+    }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){setTimeout(boot,80)});
+  else setTimeout(boot,80);
+  window.addEventListener('load',function(){setTimeout(boot,500)});
+})();
 </script>
 </body>
 </html>
