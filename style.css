@@ -23,3 +23,8 @@
 .brandChip{border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:999px;padding:5px 8px;font-size:11px;font-weight:800}
 .brandChip:hover{border-color:var(--brand);color:var(--brand)}
 @media(max-width:600px){.navtools{right:10px;gap:5px}.themebtn{width:38px;height:38px}.navtools .loginbtn{padding:9px 11px}.logo{margin-right:92px}}
+
+:root[data-theme="dark"] .input,:root[data-theme="dark"] .select,:root[data-theme="dark"] .textarea{background:#171a23!important;color:#f3f5fb!important}
+:root[data-theme="dark"] .loginbtn,:root[data-theme="dark"] .btn{background:#171a23!important;color:#f3f5fb!important}
+:root[data-theme="dark"] .top{background:rgba(19,22,30,.92)!important}
+:root[data-theme="dark"] .navlinks button{color:#a2a8b8}
