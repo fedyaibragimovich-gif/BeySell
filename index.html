@@ -1,22 +1,31 @@
 <!doctype html>
-<html lang="uz">
+<html lang="uz" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="BuySell — O'zbekistonda oldi-sotdi marketplace">
+<meta name="theme-color" content="#0f1117">
 <title>BuySell — Marketplace</title>
-<link rel="stylesheet" href="./style.css">
+<link rel="stylesheet" href="./style.css?v=20">
+<script>
+  try {
+    const saved=localStorage.getItem('buysell-theme');
+    document.documentElement.dataset.theme=saved==='light'?'light':'dark';
+  } catch(e) {
+    document.documentElement.dataset.theme='dark';
+  }
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 <div id="app"></div>
 <div id="modal" class="modal hide"></div>
 <div id="toast" class="toast hide"></div>
-<script src="./app1.js"></script>
-<script src="./app2.js"></script>
-<script src="./app3.js"></script>
-<script src="./app4.js"></script>
-<script src="./app5.js"></script>
-<script src="./app6.js"></script>
+<script src="./app1.js?v=20"></script>
+<script src="./app2.js?v=20"></script>
+<script src="./app3.js?v=20"></script>
+<script src="./app4.js?v=20"></script>
+<script src="./app5.js?v=20"></script>
+<script src="./app6.js?v=20"></script>
 </body>
 </html>
