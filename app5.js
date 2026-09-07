@@ -26,4 +26,13 @@
     let {data:imgs,error:ie}=await sb.from('listing_images').select('listing_id,public_url,sort_order').in('listing_id',ids).order('sort_order');if(ie)console.error('listing_images',ie);
     const map={};(imgs||[]).forEach(x=>(map[x.listing_id]??=[]).push(x));return (data||[]).map(x=>({...x,listing_images:map[x.id]||[]}));
   };
+  const baseItem=window.item;
+  if(typeof baseItem==='function'){
+    window.item=async function(id){
+      const {data:l,error}=await sb.from('listings').select('id,user_id,archived').eq('id',id).maybeSingle();
+      if(error)return '<div class="panel">E’lonni ochib bo‘lmadi.</div>';
+      if(l?.archived && l.user_id!==state.user?.id)return '<div class="panel"><h3>E’lon mavjud emas</h3><p class="muted">Bu e’lon sotuvchi tomonidan arxivlangan.</p></div>';
+      return baseItem(id);
+    };
+  }
 })();
