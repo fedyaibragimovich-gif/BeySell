@@ -6,7 +6,7 @@
 <meta name="description" content="OldiSotdi — O'zbekistonda oldi-sotdi marketplace">
 <meta name="theme-color" content="#0f1117">
 <title>OldiSotdi — Marketplace</title>
-<link rel="stylesheet" href="./style.css?v=31">
+<link rel="stylesheet" href="./style.css?v=32">
 <script>
 (function(){
   try { document.documentElement.dataset.theme=localStorage.getItem('buysell-theme')==='light'?'light':'dark'; }
@@ -31,7 +31,7 @@
   const app=document.getElementById('app'), status=document.getElementById('bootStatus');
   const scripts=[
     'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2',
-    './app1.js?v=31','./app2.js?v=31','./app3.js?v=31','./app4.js?v=31','./app5.js?v=31','./app6.js?v=31'
+    './app1.js?v=32','./app2.js?v=32','./app3.js?v=32','./app4.js?v=32','./app5.js?v=32','./app6.js?v=32'
   ];
   function fail(message){
     app.innerHTML='<main class="container"><div class="panel"><h2>OldiSotdi</h2><p>Ilovani ishga tushirishda xatolik yuz berdi.</p><pre style="white-space:pre-wrap;text-align:left;overflow:auto">'+String(message)+'</pre><button class="btn primary" onclick="location.reload()">Qayta yuklash</button></div></main>';
@@ -42,11 +42,16 @@
     try{
       for(const src of scripts){ status.textContent='Yuklanmoqda…'; await withTimeout(load(src),12000,src); }
       if(typeof init!=='function') throw new Error('OldiSotdi init funksiyasi topilmadi');
-      // Never allow Supabase/Auth startup to leave the user on an endless spinner.
-      await withTimeout(Promise.resolve().then(()=>init()),10000,'OldiSotdi init');
+      // Render the marketplace immediately. Authentication/profile startup must never block the UI.
+      try{ if(typeof route==='function') route(); }catch(e){ console.error('Initial route:',e); }
+      // Run auth/profile bootstrap in the background; route() inside init is also protected.
+      Promise.resolve().then(()=>withTimeout(init(),10000,'OldiSotdi init')).catch(e=>{console.error('OldiSotdi init:',e); if(app.querySelector('#bootStatus')) fail(e?.message||String(e));});
       setTimeout(()=>{
-        const s=document.createElement('script');s.id='oldisotdi-translation';s.src='./app8.js?v=3';s.onerror=()=>console.warn('Translation layer failed to load');document.body.appendChild(s);
+        const s=document.createElement('script');s.id='oldisotdi-translation';s.src='./app8.js?v=4';s.onerror=()=>console.warn('Translation layer failed to load');document.body.appendChild(s);
       },250);
+      setTimeout(()=>{
+        if(app.querySelector('#bootStatus')) fail('Ilova yuklanishi kutilganidan uzoq davom etdi. Supabase ulanishi yoki brauzer keshi sabab bo‘lishi mumkin.');
+      },15000);
     }catch(e){console.error('OldiSotdi bootstrap:',e);fail(e?.message||String(e));}
   }
   boot();
