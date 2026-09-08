@@ -6,7 +6,7 @@
 <meta name="description" content="OldiSotdi — O'zbekistonda oldi-sotdi marketplace">
 <meta name="theme-color" content="#0f1117">
 <title>OldiSotdi — Marketplace</title>
-<link rel="stylesheet" href="./style.css?v=30">
+<link rel="stylesheet" href="./style.css?v=31">
 <script>
 (function(){
   try { document.documentElement.dataset.theme=localStorage.getItem('buysell-theme')==='light'?'light':'dark'; }
@@ -31,17 +31,19 @@
   const app=document.getElementById('app'), status=document.getElementById('bootStatus');
   const scripts=[
     'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2',
-    './app1.js?v=30','./app2.js?v=30','./app3.js?v=30','./app4.js?v=30','./app5.js?v=30','./app6.js?v=30'
+    './app1.js?v=31','./app2.js?v=31','./app3.js?v=31','./app4.js?v=31','./app5.js?v=31','./app6.js?v=31'
   ];
   function fail(message){
     app.innerHTML='<main class="container"><div class="panel"><h2>OldiSotdi</h2><p>Ilovani ishga tushirishda xatolik yuz berdi.</p><pre style="white-space:pre-wrap;text-align:left;overflow:auto">'+String(message)+'</pre><button class="btn primary" onclick="location.reload()">Qayta yuklash</button></div></main>';
   }
   function load(src){return new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=src;s.onload=resolve;s.onerror=()=>reject(new Error('Script yuklanmadi: '+src));document.body.appendChild(s);});}
+  function withTimeout(p,ms,label){return Promise.race([p,new Promise((_,reject)=>setTimeout(()=>reject(new Error('Timeout: '+label)),ms))]);}
   async function boot(){
     try{
-      for(const src of scripts){ status.textContent='Yuklanmoqda…'; await Promise.race([load(src),new Promise((_,r)=>setTimeout(()=>r(new Error('Timeout: '+src)),12000))]); }
+      for(const src of scripts){ status.textContent='Yuklanmoqda…'; await withTimeout(load(src),12000,src); }
       if(typeof init!=='function') throw new Error('OldiSotdi init funksiyasi topilmadi');
-      await init();
+      // Never allow Supabase/Auth startup to leave the user on an endless spinner.
+      await withTimeout(Promise.resolve().then(()=>init()),10000,'OldiSotdi init');
       setTimeout(()=>{
         const s=document.createElement('script');s.id='oldisotdi-translation';s.src='./app8.js?v=3';s.onerror=()=>console.warn('Translation layer failed to load');document.body.appendChild(s);
       },250);
