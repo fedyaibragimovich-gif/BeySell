@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="BuySell — O'zbekistonda oldi-sotdi marketplace">
+<meta name="description" content="OldiSotdi — O'zbekistonda oldi-sotdi marketplace">
 <meta name="theme-color" content="#0f1117">
 <title>OldiSotdi — Marketplace</title>
 <link rel="stylesheet" href="./style.css?v=28">
@@ -32,6 +32,7 @@
 <script src="./app4.js?v=28"></script>
 <script src="./app5.js?v=28"></script>
 <script src="./app6.js?v=28"></script>
+<script src="./app8.js?v=1"></script>
 <script>
 (function(){
   function showError(message){
@@ -39,15 +40,15 @@
     if(!app || app.innerHTML.trim()) return;
     const e=window.__buySellBootError;
     const details=e ? '<pre style="white-space:pre-wrap;text-align:left;margin-top:12px;overflow:auto">'+String(e.message)+'\n'+String(e.source)+'\nline: '+e.line+' col: '+e.col+'</pre>' : '';
-    app.innerHTML='<main class="container"><div class="panel"><h2>BuySell</h2><p>Ilovani ishga tushirishda xatolik yuz berdi.</p>'+details+'<button class="btn primary" onclick="location.reload()">Qayta yuklash</button></div></main>';
+    app.innerHTML='<main class="container"><div class="panel"><h2>OldiSotdi</h2><p>Ilovani ishga tushirishda xatolik yuz berdi.</p>'+details+'<button class="btn primary" onclick="location.reload()">Qayta yuklash</button></div></main>';
   }
   function boot(){
     try{
-      if(typeof init!=='function') throw new Error('BuySell init funksiyasi topilmadi');
+      if(typeof init!=='function') throw new Error('OldiSotdi init funksiyasi topilmadi');
       const app=document.getElementById('app');
       if(app && !app.innerHTML.trim()) init();
     }catch(e){
-      console.error('BuySell bootstrap:',e);
+      console.error('OldiSotdi bootstrap:',e);
       showError(e?.message||String(e));
     }
   }
